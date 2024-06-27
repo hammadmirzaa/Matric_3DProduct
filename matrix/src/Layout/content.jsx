@@ -14,14 +14,14 @@ function Content({ activeData }) {
             ease: 'power3.inOut',
             duration: 0.8,
           });
-        //   gsap.from('.text', {
-        //     y: 200,
-        //     ease: 'power4.out',
-        //     duration: 1,
-        //     stagger:{
-        //         amount:0.3,
-        //     },
-        // });
+          gsap.from('.text', {
+            y: 200,
+            ease: 'power4.out',
+            duration: 1,
+            stagger:{
+                amount:0.3,
+            },
+        });
         return () => {};
     }, [activeData]);
    return (
