@@ -15,6 +15,13 @@ class Canvas extends React.Component {
         super(props)
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const { activeData } = this.props;
+        if (prevProps.activeData !== activeData) {
+          this.applyMaterial(activeData);
+        }
+      }
+
     componentDidMount(){
         this.InitialSetup()
     }
@@ -119,7 +126,28 @@ class Canvas extends React.Component {
           }, undefined, (error) => {
             console.error('Error loading GLB file:', error);
           });
-    }
+    };
+    applyMaterial = (data) => {
+        this.scene.traverse((element) => {
+          if (element.isMesh) {
+            Object.entries(data.itemList).forEach((mesh) => {
+              if (mesh[0] === element.name) {
+                var value = new THREE.Color(mesh[1].color).convertSRGBToLinear();
+    
+                gsap.to(element.material.color, {
+                  r: value.r,
+                  g: value.g,
+                  b: value.b,
+                  ease: 'power3.inOut',
+                  duration: 0.8,
+                });
+                element.material.needsUpdate = true;
+              }
+            });
+          }
+        });
+    };
+    
   render() {
     const { activeData, swatchData, handleSwatchClick } = this.props;
     return (
