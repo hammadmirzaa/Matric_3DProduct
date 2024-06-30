@@ -83,6 +83,14 @@ class Canvas extends React.Component {
     render();
       
     };
+
+    resize = () => {
+        this.sizes.width = this.container.offsetWidth;
+        this.sizes.height = this.container.offsetHeight;
+        this.renderer.setSize(this.sizes.width, this.sizes.height);
+        this.camera.aspect = this.sizes.width / this.sizes.height;
+        this.camera.updateProjectionMatrix();
+      };
     loadHDR = () =>{
         new RGBELoader(this.manager)
         .setDataType(THREE.HalfFloatType)
@@ -93,7 +101,7 @@ class Canvas extends React.Component {
           texture.needsUpdate = true;
           // this.scene.background = texture;
           this.scene.environment = texture;
-        //   texture.dispose();
+          texture.dispose();
         });
     };
     addModel = () => {
