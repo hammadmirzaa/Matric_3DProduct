@@ -83,7 +83,19 @@ class Canvas extends React.Component {
     render();
       
     };
-    loadHDR = () =>{};
+    loadHDR = () =>{
+        new RGBELoader(this.manager)
+        .setDataType(THREE.HalfFloatType)
+        .load('default.hdr', (texture) => {
+          texture.minFilter = THREE.LinearFilter;
+          texture.magFilter = THREE.LinearFilter;
+          texture.mapping = THREE.EquirectangularReflectionMapping;
+          texture.needsUpdate = true;
+          // this.scene.background = texture;
+          this.scene.environment = texture;
+        //   texture.dispose();
+        });
+    };
     addModel = () => {
         const THREE_PATH = `https://unpkg.com/three@0.${THREE.REVISION}.x`;
         const DRACO_LOADER = new DRACOLoader(this.manager).setDecoderPath(
